@@ -6,10 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="eureka-service" />
         <module name="predictions-service" />
         <module name="market-data-service" />
         <module name="auth-service" />
+        <module name="config-service" />
         <module name="enterprises-service" />
+        <module name="gateway-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -26,8 +29,11 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ai-service" options="-parameters" />
       <module name="auth-service" options="-parameters" />
+      <module name="config-service" options="-parameters" />
       <module name="datasource-service" options="-parameters" />
       <module name="enterprises-service" options="-parameters" />
+      <module name="eureka-service" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
       <module name="inputvalues-service" options="-parameters" />
       <module name="logs-service" options="-parameters" />
       <module name="market-data-service" options="-parameters" />
