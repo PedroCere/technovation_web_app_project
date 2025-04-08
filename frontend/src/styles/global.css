@@ -1,0 +1,28 @@
+:root {
+    --primary: #0070E4;
+    --background: #1F1B23;
+    --text-primary: #E9EAF0;
+    --text-secondary: #9295A6;
+    --success: #10B981;
+    --warning: #EF4444;
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+  }
+  
+  button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #005fd2;
+  }
+  
