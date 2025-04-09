@@ -82,7 +82,7 @@ const Dashboard = () => {
         <div className="h-16 flex items-center justify-between px-8 border-b-2 border-[#2A2530]">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <FaUserCircle className="text-2xl text-[#0070E4]" />
+              <img src="/foto_usuario.jpg" alt="Usuario" className="h-8 w-8 rounded-full object-cover" />
               <span>Mateo Baccillere</span>
             </div>
             <div className="flex items-center gap-4">
