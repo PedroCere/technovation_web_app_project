@@ -1,16 +1,13 @@
 import { createChart } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
-import { FaChartLine, FaChartArea, FaChartBar } from "react-icons/fa";
 
 const generateMockData = (timeframe) => {
   const now = new Date();
   const data = [];
   let basePrice = 400;
   
-  // Generate 100 data points
   for (let i = 0; i < 100; i++) {
     const date = new Date(now);
-    // Create unique timestamps by subtracting minutes and adding milliseconds
     date.setMinutes(date.getMinutes() - i * 5);
     date.setMilliseconds(i);
     
@@ -20,7 +17,7 @@ const generateMockData = (timeframe) => {
     const close = low + Math.random() * (high - low);
     
     data.push({
-      time: date.getTime(), // Unix timestamp in milliseconds
+      time: date.getTime(),
       open,
       high,
       low,
@@ -35,10 +32,8 @@ const generateMockData = (timeframe) => {
 };
 
 const calculateIndicators = (data) => {
-  // Calculate SMA50 and SMA200
   const sma50 = [];
   const sma200 = [];
-  const rsi = [];
   
   for (let i = 0; i < data.length; i++) {
     if (i >= 49) {
@@ -50,150 +45,124 @@ const calculateIndicators = (data) => {
       const sum200 = data.slice(i-199, i+1).reduce((sum, d) => sum + d.close, 0);
       sma200.push({ time: data[i].time, value: sum200 / 200 });
     }
-    
-    // Simple RSI calculation
-    if (i > 0) {
-      const change = data[i].close - data[i-1].close;
-      rsi.push({ 
-        time: data[i].time, 
-        value: Math.min(100, Math.max(0, 50 + (change > 0 ? 10 : -10)))
-      });
-    }
   }
   
-  return { sma50, sma200, rsi };
+  return { sma50, sma200 };
 };
 
 const Chart = ({ timeframe = '5m' }) => {
-  const chartRef = useRef(null);
-  const [activeIndicators, setActiveIndicators] = useState({
-    sma50: true,
-    sma200: true,
-    rsi: true
-  });
+  const containerRef = useRef(null);
+  const [priceInfo, setPriceInfo] = useState(null);
 
   useEffect(() => {
-    if (!chartRef.current) return;
+    if (!containerRef.current) return;
 
-    const chart = createChart(chartRef.current, {
-      width: chartRef.current.clientWidth,
+    const chart = createChart(containerRef.current, {
+      width: containerRef.current.clientWidth,
       height: 400,
       layout: {
         background: { color: "#0A0A0F" },
-        textColor: "#FFFFFF",
+        textColor: "#D9D9D9",
+        fontSize: 12,
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
       },
       grid: {
-        vertLines: { color: "#1E1E2D" },
-        horzLines: { color: "#1E1E2D" },
+        vertLines: { color: "rgba(37, 37, 53, 0.5)", visible: true },
+        horzLines: { color: "rgba(37, 37, 53, 0.7)" },
       },
       timeScale: {
         timeVisible: true,
         secondsVisible: false,
+        borderColor: '#252535',
+        tickMarkFormatter: (time) => {
+          const date = new Date(time);
+          return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        },
+      },
+      rightPriceScale: {
+        borderColor: '#252535',
+        entireTextOnly: true,
+      },
+      crosshair: {
+        mode: 1,
+        vertLine: {
+          color: 'rgba(152, 152, 152, 0.5)',
+          labelBackgroundColor: '#121212',
+        },
+        horzLine: {
+          color: 'rgba(152, 152, 152, 0.5)',
+          labelBackgroundColor: '#121212',
+        },
       },
     });
 
-    // Price chart
     const candlestickSeries = chart.addCandlestickSeries({
-      upColor: "#0070E4",
-      downColor: "#FF3B30",
-      borderVisible: false,
-      wickUpColor: "#0070E4",
-      wickDownColor: "#FF3B30",
+      upColor: "#26a69a",
+      downColor: "#ef5350",
+      borderVisible: true,
+      borderUpColor: "#000000",
+      borderDownColor: "#000000",
+      wickUpColor: "#26a69a",
+      wickDownColor: "#ef5350",
+      wickVisible: true,
     });
 
-    // Volume chart
     const volumeSeries = chart.addHistogramSeries({
-      color: "#0070E480",
-      priceFormat: {
-        type: 'volume',
-      },
+      color: "rgba(38, 166, 154, 0.3)",
+      priceFormat: { type: 'volume' },
       priceScaleId: '',
     });
 
-    // RSI series on main chart
-    const rsiSeries = chart.addLineSeries({
-      color: "#FFA500",
-      lineWidth: 2,
-      priceScaleId: 'rsi',
-    });
-    chart.priceScale('rsi').applyOptions({
-      scaleMargins: {
-        top: 0.85,
-        bottom: 0.05,
-      },
+    const sma50Series = chart.addLineSeries({
+      color: "rgba(255, 152, 0, 0.7)",
+      lineWidth: 1,
+      lineStyle: 2,
     });
 
-    // Generate and set data
+    const sma200Series = chart.addLineSeries({
+      color: "rgba(0, 150, 136, 0.7)",
+      lineWidth: 1,
+    });
+
+    chart.subscribeCrosshairMove(param => {
+      if (param.time) {
+        const data = param.seriesData.get(candlestickSeries);
+        if (data) {
+          setPriceInfo({
+            open: data.open.toFixed(2),
+            high: data.high.toFixed(2),
+            low: data.low.toFixed(2),
+            close: data.close.toFixed(2),
+            volume: (data.volume / 1000).toFixed(1) + 'K'
+          });
+        }
+      }
+    });
+
     const priceData = generateMockData(timeframe);
-    const { sma50, sma200, rsi } = calculateIndicators(priceData);
+    const { sma50, sma200 } = calculateIndicators(priceData);
     
     candlestickSeries.setData(priceData);
-    volumeSeries.setData(priceData.map(d => ({
-      time: d.time,
-      value: d.volume
-    })));
+    volumeSeries.setData(priceData.map(d => ({ time: d.time, value: d.volume })));
+    sma50Series.setData(sma50);
+    sma200Series.setData(sma200);
 
-    // Add indicators if active
-    if (activeIndicators.sma50) {
-      const sma50Series = chart.addLineSeries({
-        color: "#FFA500",
-        lineWidth: 2,
-      });
-      sma50Series.setData(sma50);
-    }
-
-    if (activeIndicators.sma200) {
-      const sma200Series = chart.addLineSeries({
-        color: "#00E676",
-        lineWidth: 2,
-      });
-      sma200Series.setData(sma200);
-    }
-
-    if (activeIndicators.rsi) {
-      rsiSeries.setData(rsi);
-    }
-
-    // Auto-scaling
     chart.timeScale().fitContent();
 
     return () => chart.remove();
-  }, [timeframe, activeIndicators]);
+  }, [timeframe]);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex gap-4 mb-2">
-      {['1m', '5m', '15m', '1h', '4h', '1d'].map((tf, index) => (
-          <button
-            key={`${tf}-${index}`}
-            className={`px-3 py-1 rounded ${timeframe === tf ? 'bg-[#0070E4] text-white' : 'bg-[#2A2530]'}`}
-            onClick={() => setTimeframe(tf)}
-          >
-            {tf}
-          </button>
-        ))}
-      </div>
-      <div ref={chartRef} className="flex-1" />
-      <div className="flex gap-4 mt-2">
-        <button
-          className={`flex items-center gap-2 px-3 py-1 rounded ${activeIndicators.sma50 ? 'bg-[#0070E4] text-white' : 'bg-[#2A2530]'}`}
-          onClick={() => setActiveIndicators(prev => ({...prev, sma50: !prev.sma50}))}
-        >
-          <FaChartLine /> SMA 50
-        </button>
-        <button
-          className={`flex items-center gap-2 px-3 py-1 rounded ${activeIndicators.sma200 ? 'bg-[#0070E4] text-white' : 'bg-[#2A2530]'}`}
-          onClick={() => setActiveIndicators(prev => ({...prev, sma200: !prev.sma200}))}
-        >
-          <FaChartArea /> SMA 200
-        </button>
-        <button
-          className={`flex items-center gap-2 px-3 py-1 rounded ${activeIndicators.rsi ? 'bg-[#0070E4] text-white' : 'bg-[#2A2530]'}`}
-          onClick={() => setActiveIndicators(prev => ({...prev, rsi: !prev.rsi}))}
-        >
-          <FaChartBar /> RSI
-        </button>
-      </div>
+    <div className="relative h-full" ref={containerRef}>
+      {priceInfo && (
+        <div className="absolute top-3 right-3 bg-[#0A0A0F] bg-opacity-80 p-2 rounded text-xs">
+          <div>O: {priceInfo.open}</div>
+          <div>H: {priceInfo.high}</div>
+          <div>L: {priceInfo.low}</div>
+          <div>C: {priceInfo.close}</div>
+          <div>Vol: {priceInfo.volume}</div>
+        </div>
+      )}
     </div>
   );
 };

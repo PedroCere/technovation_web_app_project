@@ -31,7 +31,16 @@ const TradePanel = () => {
         disabled={orderType !== "Stop Order"}
       />
 
-      <button className="buy-button">Buy</button>
+      <button
+        id="force-buy-button"
+        style={{
+          backgroundColor: '#0070E4',
+          color: 'black',
+          border: '2px solid lime'
+        }}
+      >
+        BUY MSFT (FORCED)
+      </button>
     </div>
   );
 };
