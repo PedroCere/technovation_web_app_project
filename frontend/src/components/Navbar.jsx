@@ -1,14 +1,17 @@
 import React from "react";
-import "../styles/Navbar.css";
+import "./styles/navbar.css";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <h3>Mateo el Violadito</h3>
-      <div className="portfolio">
-        <span>Portfolio Balance: <strong>$623,098.17</strong></span>
-        <span>Available Funds: <strong>$122,912.50</strong></span>
-      </div>
+      <div className="logo">MarketVision AI</div>
+      <ul className="nav-links">
+        <li>Charts</li>
+        <li>News</li>
+        <li>Profile</li>
+        <li>Alerts</li>
+        <li>Settings</li>
+      </ul>
     </nav>
   );
 };

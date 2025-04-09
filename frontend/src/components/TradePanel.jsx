@@ -1,32 +1,39 @@
-import React from "react";
-import "../styles/TradePanel.css";
+import React, { useState } from "react";
+import "./styles/tradePanel.css";
 
 const TradePanel = () => {
+  const [orderType, setOrderType] = useState("Market Price");
+  const [quantity, setQuantity] = useState(1);
+  const [stopPrice, setStopPrice] = useState("");
+
   return (
     <div className="trade-panel">
-      <h3>Trade</h3>
-      <div className="trade-options">
-        <button className="buy-btn">Buy</button>
-        <button className="sell-btn">Sell</button>
-      </div>
+      <h2>Trade</h2>
       <label>Order Type</label>
-      <select>
+      <select value={orderType} onChange={(e) => setOrderType(e.target.value)}>
         <option>Market Price</option>
         <option>Limit Order</option>
+        <option>Stop Order</option>
       </select>
+
       <label>Quantity</label>
-      <div className="quantity-buttons">
-        <button>10</button>
-        <button>50</button>
-        <button>100</button>
-        <button>500</button>
-      </div>
+      <input
+        type="number"
+        value={quantity}
+        onChange={(e) => setQuantity(e.target.value)}
+      />
+
       <label>Stop Price</label>
-      <input type="number" placeholder="400.00" />
-      <p>Buying Power: <strong>$122,912.50</strong></p>
+      <input
+        type="number"
+        value={stopPrice}
+        onChange={(e) => setStopPrice(e.target.value)}
+        disabled={orderType !== "Stop Order"}
+      />
+
+      <button className="buy-button">Buy</button>
     </div>
   );
 };
 
 export default TradePanel;
-
