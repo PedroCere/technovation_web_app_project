@@ -1,15 +1,17 @@
 import React from "react";
-import { FaChartLine, FaUser, FaCog } from "react-icons/fa";
-import "../styles/Sidebar.css";
+import { FaChartBar, FaUser, FaCog, FaHome, FaBell, FaNewspaper } from "react-icons/fa";
+import "./styles/Sidebar.css"
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <h2>Logo</h2>
-      <ul>
-        <li><FaChartLine /> Dashboard</li>
-        <li><FaUser /> Profile</li>
-        <li><FaCog /> Settings</li>
+      <div className="logo">Logo</div>
+      <ul className="menu">
+        <li><FaChartBar /><span>Charts</span></li>
+        <li><FaNewspaper /><span>News</span></li>
+        <li><FaUser /><span>Profile</span></li>
+        <li><FaBell /><span>Alerts</span></li>
+        <li><FaCog /><span>Settings</span></li>
       </ul>
     </div>
   );

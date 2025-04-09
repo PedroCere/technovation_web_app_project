@@ -1,0 +1,38 @@
+.trade-panel {
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.trade-panel h2 {
+  text-align: center;
+}
+
+.trade-panel label {
+  display: block;
+  margin-top: 10px;
+}
+
+.trade-panel input,
+.trade-panel select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+.buy-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #ff6600;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.buy-button:hover {
+  background: #ff4500;
+}
