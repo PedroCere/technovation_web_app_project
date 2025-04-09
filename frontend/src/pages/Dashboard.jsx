@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaChartLine, FaNewspaper, FaFileAlt, FaCog, FaSearch, FaUserCircle } from 'react-icons/fa';
 import Chart from '../components/Chart';
+import StockHeaderPanel from '../components/StockHeaderPanel';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('buy');
@@ -131,6 +132,27 @@ const Dashboard = () => {
               ))}
             </div>
 
+            {/* Stock Header Panel */}
+            <StockHeaderPanel stockData={{
+              ticker: 'MSFT',
+              companyName: 'Microsoft Corp NASDAQ',
+              currentPrice: 406.32,
+              change: +2.24,
+              changePercent: 0.26,
+              afterHoursPrice: 406.83,
+              afterHoursChange: -0.27,
+              afterHoursChangePercent: 0.07,
+              open: 401.23,
+              low: 400.10,
+              high: 408.36,
+              week52High: 430.82,
+              week52Low: 273.13,
+              avgVolume: '21.73M',
+              sharesOutstanding: '7.43B',
+              marketCap: '3.02T',
+              dividendYield: 0.74
+            }} />
+
             {/* Gráfico */}
             <div className="rounded-lg">
               {/* Área del Gráfico */}
@@ -212,7 +234,7 @@ const Dashboard = () => {
                     </div>
                     <div className="flex justify-between py-1 border-b border-[#2A2530]">
                       <span className="text-xs">Buying Power:</span>
-                      <span className="text-sm">$122,912.50</span>
+                      <span className="text-green-500 text-sm font-bold">$14,097.36</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-[#2A2530]">
                       <span className="text-xs">Fees:</span>
@@ -226,7 +248,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="flex border-b border-gray-700 mb-2">
-                  <button className={`flex-1 py-1 text-sm font-bold ${activeTab === 'buy' ? 'text-green-400 border-b-2 border-green-400' : 'text-gray-400'}`}
+                  <button className={`flex-1 py-1 text-sm font-bold ${activeTab === 'buy' ? 'text-blue-400 border-b-2 border-blue-500' : 'text-gray-400'}`}
                     onClick={() => setActiveTab('buy')}>
                     BUY
                   </button>
@@ -236,7 +258,7 @@ const Dashboard = () => {
                   </button>
                 </div>
                 <button className={`w-full py-1.5 rounded-sm text-sm font-bold transition-all ${activeTab === 'buy' 
-                  ? 'bg-green-600 hover:bg-green-700' 
+                  ? 'bg-blue-600 hover:bg-blue-700' 
                   : 'bg-red-600 hover:bg-red-700'} text-white`}>
                   {activeTab === 'buy' ? 'BUY MSFT' : 'SELL MSFT'}
                 </button>
@@ -248,20 +270,20 @@ const Dashboard = () => {
               <div className="bg-[#1F1B23] p-3 rounded-t-lg mb-3">
                 <h3 className="text-lg font-bold text-white">Time & Sales</h3>
               </div>
-              <table className="w-full">
+              <table className="w-full pl-6 pr-4">
                 <thead>
-                  <tr className="text-left border-b-2 border-[#2A2530]">
-                    <th className="pb-2">Time</th>
-                    <th className="pb-2">Price</th>
-                    <th className="pb-2">Shares</th>
+                  <tr className="border-b-2 border-[#2A2530]">
+                    <th className="pb-2 text-center">Time</th>
+                    <th className="pb-2 text-center">Price</th>
+                    <th className="pb-2 text-center">Shares</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[...Array(5)].map((_, i) => (
                     <tr key={`trade-${i}`} className="border-b border-[#2A2530]">
-                      <td className="py-2">16:59:32</td>
-                      <td className="py-2">420.56</td>
-                      <td className="py-2">25</td>
+                      <td className="py-2 text-center">16:59:32</td>
+                      <td className="py-2 text-center">420.56</td>
+                      <td className="py-2 text-center">25</td>
                     </tr>
                   ))}
                 </tbody>
