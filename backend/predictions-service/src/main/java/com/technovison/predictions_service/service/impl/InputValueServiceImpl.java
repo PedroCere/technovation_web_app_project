@@ -16,12 +16,12 @@ public class InputValueServiceImpl  implements InputValueService {
     private InputValueRepository inputValueRepository;
 
     @Override
-    public InputValue saveInput(InputValueDTO dto, Long userID) {
+    public InputValue saveInput(InputValueDTO dto, Long userid) {
         InputValue input = new InputValue();
         input.setValueName(dto.getValueName());
         input.setInput(dto.getInput());
         input.setInputDate(LocalDateTime.now());
-        input.setUserId(userID);
+        input.setUserId(userid);
 
         return inputValueRepository.save(input);
     }

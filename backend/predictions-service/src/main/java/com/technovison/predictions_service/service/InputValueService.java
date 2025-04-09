@@ -5,5 +5,5 @@ import com.technovison.predictions_service.models.InputValue;
 
 public interface InputValueService {
 
-    public InputValue saveInput(InputValueDTO dto,Long userID);
+    public InputValue saveInput(InputValueDTO dto,Long userid);
 }
