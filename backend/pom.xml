@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.4.4</version>
+    <version>3.1.5</version>
   </parent>
 
   <groupId>com.technovision</groupId>
@@ -20,6 +20,9 @@
     <module>enterprises-service</module>
     <module>predictions-service</module>
     <module>market-data-service</module>
+    <module>eureka-service</module>
+    <module>config-service</module>
+    <module>gateway-service</module>
   </modules>
 
   <properties>
