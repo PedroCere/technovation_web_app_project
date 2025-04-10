@@ -39,19 +39,17 @@ const Markets = () => {
     { symbol: 'META', name: 'Meta Platforms', price: 485.76, change: 2.23 }
   ]);
 
-  // Función para ordenar descendente por % Change
+
   const sortByChangeDesc = (data) => {
     return [...data].sort((a, b) => b.change - a.change);
   };
 
-  // Función para refrescar datos
+
   const handleRefresh = () => {
-    // Mock refresh - en producción llamaría a fetchMarketData()
+
     setTopGainers(sortByChangeDesc(topGainers));
     setMostActive(sortByChangeDesc(mostActive));
   };
-
-  // Inicializar con datos ordenados
   useState(() => {
     setTopGainers(sortByChangeDesc(topGainers));
     setMostActive(sortByChangeDesc(mostActive));
