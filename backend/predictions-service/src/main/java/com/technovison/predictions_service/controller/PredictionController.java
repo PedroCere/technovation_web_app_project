@@ -24,6 +24,10 @@ public class PredictionController {
             HttpServletRequest request
     ) {
         String userIdStr = (String) request.getAttribute("userId");
+        if (userIdStr == null) {
+            // Modo test sin seguridad
+            userIdStr = "1";
+        }
         Long userId = Long.parseLong(userIdStr);
         PredictionResponseDTO response = predictionService.predict(dto, userId);
         return ResponseEntity.ok(response);

@@ -1,5 +1,6 @@
 package com.technovision.market_data_service.service.impl;
 
+import com.technovision.market_data_service.dto.HistoricalPriceResponse;
 import com.technovision.market_data_service.dto.StockQuoteDTO;
 import com.technovision.market_data_service.feign.FmpClient;
 import com.technovision.market_data_service.service.IMarketDataService;
@@ -26,4 +27,11 @@ public class MarketDataService implements IMarketDataService {
         }
         return result.get(0); // FMP siempre devuelve lista, incluso con uno solo
     }
+
+    @Override
+    public HistoricalPriceResponse getHistoricalData(String symbol) {
+        return fmpClient.getHistoricalData(symbol);
+    }
+
+
 }

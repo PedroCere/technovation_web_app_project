@@ -23,7 +23,9 @@ public class Stock {
 
     private double price;
 
+    @Column(name = "change_value")
     private double change;
+
 
     @Column(name = "changes_percentage")
     private double changesPercentage;

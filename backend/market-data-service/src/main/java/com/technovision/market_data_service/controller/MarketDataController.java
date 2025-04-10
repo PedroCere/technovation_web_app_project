@@ -1,5 +1,6 @@
 package com.technovision.market_data_service.controller;
 
+import com.technovision.market_data_service.dto.HistoricalPriceResponse;
 import com.technovision.market_data_service.dto.StockQuoteDTO;
 import com.technovision.market_data_service.service.impl.MarketDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,11 @@ public class MarketDataController {
     public ResponseEntity<StockQuoteDTO> getQuote(@PathVariable String symbol) {
         return ResponseEntity.ok(marketDataService.getQuote(symbol));
     }
+
+    @GetMapping("/history/{symbol}")
+    public ResponseEntity<HistoricalPriceResponse> getHistoricalData(@PathVariable String symbol) {
+        return ResponseEntity.ok(marketDataService.getHistoricalData(symbol));
+    }
+
+
 }
