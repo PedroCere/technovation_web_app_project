@@ -1,0 +1,70 @@
+.chart-container {
+  width: 100%;
+  height: 100%;
+  background: #07020B;
+  border-radius: 4px;
+}
+
+.candlestick-up {
+  fill: #00C853;
+  stroke: #00C853;
+}
+
+.candlestick-down {
+  fill: #FF3D00;
+  stroke: #FF3D00;
+}
+
+.volume-up {
+  fill: rgba(0, 200, 83, 0.3);
+}
+
+.volume-down {
+  fill: rgba(255, 61, 0, 0.3);
+}
+
+.sma-line {
+  stroke: #0070E4;
+  stroke-width: 2;
+}
+
+.rsi-line {
+  stroke: #FFC107;
+  stroke-width: 2;
+}
+
+.timeframe-btn {
+  background: #07020B;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.timeframe-btn.active {
+  background: #0070E4;
+  color: white;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  pointer-events: none;
+  font-size: 12px;
+}
+
+.axis {
+  color: #6B7280;
+  font-size: 10px;
+}
+
+.grid-line {
+  stroke: #2A2530;
+  stroke-width: 1;
+  stroke-dasharray: 2,2;
+}
