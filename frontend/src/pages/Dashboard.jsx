@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaChartLine, FaNewspaper, FaFileAlt, FaCog, FaSearch, FaUserCircle } from 'react-icons/fa';
 import Chart from '../components/Chart';
 import StockHeaderPanel from '../components/StockHeaderPanel';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('buy');
+
+  const handleNavigation = (tab) => {
+    console.log(`Navigating to ${tab}`);
+    setActiveTab(tab);
+    navigate(`/${tab}`);
+  };
   return (
     <div className="min-h-screen flex bg-[#07020B] text-white">
       {/* Sidebar */}
@@ -26,7 +34,12 @@ const Dashboard = () => {
                 <button
                   key={item.label}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${(activeTab === item.tab || item.tab === 'dashboard') ? 'bg-[#0070E4] text-white' : 'hover:bg-[#2A2530]'}`}
-                  onClick={() => setActiveTab(item.tab)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log(`Clicked ${item.label} tab`);
+                    handleNavigation(item.tab);
+                  }}
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -46,7 +59,12 @@ const Dashboard = () => {
                 <button
                   key={item.label}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${activeTab === item.tab ? 'bg-[#0070E4] text-white' : 'hover:bg-[#2A2530]'}`}
-                  onClick={() => setActiveTab(item.tab)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log(`Clicked ${item.label} tab`);
+                    handleNavigation(item.tab);
+                  }}
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -65,7 +83,12 @@ const Dashboard = () => {
                 <button
                   key={item.label}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${activeTab === item.tab ? 'bg-[#0070E4] text-white' : 'hover:bg-[#2A2530]'}`}
-                  onClick={() => setActiveTab(item.tab)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log(`Clicked ${item.label} tab`);
+                    handleNavigation(item.tab);
+                  }}
                 >
                   {item.icon}
                   <span>{item.label}</span>
