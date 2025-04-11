@@ -32,6 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 
-###Properties###
-backend/market-data-service/src/main/resources/application.properties
-**/application.properties
+# Ignorar configuración local
+application.yml

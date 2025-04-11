@@ -32,6 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-### Application Properties ###
-backend/predictions-service/src/main/resources/application.properties
-**/application.properties
+# Ignorar configuración local
+application.yml
+

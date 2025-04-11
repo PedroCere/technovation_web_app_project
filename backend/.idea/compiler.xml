@@ -12,13 +12,13 @@
         <module name="market-data-service" />
         <module name="auth-service" />
         <module name="config-service" />
-        <module name="enterprises-service" />
         <module name="gateway-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ai-service" target="21" />
       <module name="datasource-service" target="21" />
+      <module name="enterprises-service" target="21" />
       <module name="inputvalues-service" target="21" />
       <module name="logs-service" target="21" />
       <module name="users" target="20" />
