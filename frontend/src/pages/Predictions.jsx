@@ -152,13 +152,55 @@ const Predictions = () => {
           </div>
           
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 bg-[#1F1B23] px-4 py-2 rounded-lg">
-              <FaSearch className="text-white" />
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="bg-transparent outline-none"
-              />
+              <div className="flex items-center gap-4">
+                <input 
+                  type="text" 
+                  placeholder="Asset (Symbol)" 
+                  className="bg-[#1F1B23] text-white px-3 py-1 rounded-lg outline-none w-32"
+                />
+                <input
+                  type="text"
+                  placeholder="Prediction Title"
+                  className="bg-[#1F1B23] text-white px-3 py-1 rounded-lg outline-none w-48"
+                />
+                <textarea
+                  placeholder="Description"
+                  className="bg-[#1F1B23] text-white px-3 py-1 rounded-lg outline-none h-10 w-64"
+                />
+                <button 
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg whitespace-nowrap"
+                  onClick={async () => {
+                    const symbol = document.querySelector('input[placeholder="Asset (Symbol)"]').value;
+                    const title = document.querySelector('input[placeholder="Prediction Title"]').value;
+                    const value = document.querySelector('textarea').value;
+                    
+                    try {
+                      const response = await fetch('http://localhost:8081/api/predictions/prediction', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          predictionTitle: title,
+                          userInput: value,
+                          symbol: symbol
+                        })
+                      });
+                      
+                      if (response.ok) {
+                        alert('Prediction submitted successfully!');
+                        window.location.reload();
+                      } else {
+                        alert('Error submitting prediction');
+                      }
+                    } catch (error) {
+                      console.error('Error:', error);
+                      alert('Failed to submit prediction');
+                    }
+                }}
+              >
+                Submit Prediction
+              </button>
             </div>
           </div>
         </div>
@@ -188,6 +230,8 @@ const Predictions = () => {
                     </span>
                     {prediction.confidence >= 0.75 ? (
                       <FaArrowUp className="text-green-500" />
+                    ) : prediction.confidence >= 0.5 ? (
+                      <FaArrowUp className="text-yellow-500" />
                     ) : prediction.expectedChange.startsWith('+') ? (
                       <FaArrowUp className="text-green-500" />
                     ) : (
