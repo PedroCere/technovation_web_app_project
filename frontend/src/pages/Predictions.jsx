@@ -63,7 +63,7 @@ const Predictions = () => {
               ].map((item) => (
                 <button
                   key={item.label}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${(activeTab === item.tab || item.tab === 'dashboard') ? 'bg-[#0070E4] text-white' : 'hover:bg-[#2A2530]'}`}
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${activeTab === item.tab ? 'bg-[#0070E4] text-white' : 'hover:bg-[#2A2530]'}`}
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
