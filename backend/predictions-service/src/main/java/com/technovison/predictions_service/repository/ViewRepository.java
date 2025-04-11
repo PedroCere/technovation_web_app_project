@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ViewRepository extends JpaRepository<View,Long> {
     List<View> findByPredictionId(Long predictionId);
+
 }

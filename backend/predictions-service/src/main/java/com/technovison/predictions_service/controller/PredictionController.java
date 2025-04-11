@@ -6,6 +6,7 @@ import com.technovison.predictions_service.models.Prediction;
 import com.technovison.predictions_service.service.PredictionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,18 @@ public class PredictionController {
         List<Prediction> history = predictionService.getPredictionsByUser(userId);
         return ResponseEntity.ok(history);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePredictionWithViews(@PathVariable Long id) {
+        try {
+            predictionService.deletePredictionWithViews(id);
+            return ResponseEntity.ok("Prediction and its views were successfully deleted.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting prediction: " + e.getMessage());
+        }
+    }
+
 
 
 }

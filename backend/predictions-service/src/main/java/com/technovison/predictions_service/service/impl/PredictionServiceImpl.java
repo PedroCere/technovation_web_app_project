@@ -10,8 +10,11 @@ import com.technovison.predictions_service.feign.OpenRouterRequest;
 import com.technovison.predictions_service.feign.OpenRouterResponse;
 import com.technovison.predictions_service.feign.config.MarketDataClient;
 import com.technovison.predictions_service.models.Prediction;
+import com.technovison.predictions_service.models.View;
 import com.technovison.predictions_service.repository.PredictionRepository;
+import com.technovison.predictions_service.repository.ViewRepository;
 import com.technovison.predictions_service.service.PredictionService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,7 @@ public class PredictionServiceImpl implements PredictionService {
     private final PredictionRepository predictionRepository;
     private final OpenRouterClient openRouterClient;
     private final MarketDataClient marketDataClient;
+    private final ViewRepository viewRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -124,6 +128,18 @@ public class PredictionServiceImpl implements PredictionService {
 
         return new PredictionResponseDTO(parsed.getPrediction(), parsedFiability);
     }
+
+    @Override
+    @Transactional
+    public void deletePredictionWithViews(Long id) {
+        List<View> views = viewRepository.findByPredictionId(id);
+        if (!views.isEmpty()) {
+            viewRepository.deleteAll(views);
+        }
+
+        predictionRepository.deleteById(id);
+    }
+
 
     @Override
     public List<Prediction> getPredictionsByUser(Long userId) {

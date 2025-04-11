@@ -12,4 +12,6 @@ public interface PredictionService {
 
     public List<Prediction> getPredictionsByUser(Long userId);
 
+    public void deletePredictionWithViews(Long id);
+
 }
