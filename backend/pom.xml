@@ -17,7 +17,6 @@
 
   <modules>
     <module>auth-service</module>
-    <module>enterprises-service</module>
     <module>predictions-service</module>
     <module>market-data-service</module>
     <module>eureka-service</module>

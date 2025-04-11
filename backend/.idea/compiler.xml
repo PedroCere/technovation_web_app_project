@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -11,36 +12,6 @@
         <module name="market-data-service" />
         <module name="auth-service" />
         <module name="config-service" />
-        <module name="enterprises-service" />
-        <module name="gateway-service" />
-      </profile>
-    </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ai-service" target="21" />
-      <module name="datasource-service" target="21" />
-      <module name="inputvalues-service" target="21" />
-      <module name="logs-service" target="21" />
-      <module name="users" target="20" />
-      <module name="users-service" target="21" />
-      <module name="view-service" target="21" />
-    </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ai-service" options="-parameters" />
-      <module name="auth-service" options="-parameters" />
-      <module name="config-service" options="-parameters" />
-      <module name="datasource-service" options="-parameters" />
-      <module name="enterprises-service" options="-parameters" />
-      <module name="eureka-service" options="-parameters" />
-      <module name="gateway-service" options="-parameters" />
-      <module name="inputvalues-service" options="-parameters" />
-      <module name="logs-service" options="-parameters" />
-      <module name="market-data-service" options="-parameters" />
-      <module name="predictions-service" options="-parameters" />
-      <module name="users" options="-parameters" />
-      <module name="users-service" options="-parameters" />
-      <module name="view-service" options="-parameters" />
-    </option>
-  </component>
+<<<<<<< backend
+
 </project>
