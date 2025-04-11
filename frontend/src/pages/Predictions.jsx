@@ -1,23 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaChartLine, FaSearch, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaChartLine, FaSearch, FaArrowUp, FaArrowDown, FaFileAlt, FaCog, FaUserCircle } from 'react-icons/fa';
 
 const Predictions = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('predictions');
-  
-  const [predictions, setPredictions] = useState([
-    { asset: 'MSFT', futurePrice: 420.00, confidence: 85, expectedChange: '+3.5%' },
-    { asset: 'AAPL', futurePrice: 190.00, confidence: 80, expectedChange: '+2.0%' },
-    { asset: 'GOOGL', futurePrice: 2800.00, confidence: 75, expectedChange: '+1.5%' },
-    { asset: 'TSLA', futurePrice: 165.00, confidence: 65, expectedChange: '-2.3%' },
-    { asset: 'AMZN', futurePrice: 185.00, confidence: 70, expectedChange: '+1.8%' },
-  ]);
+  const [predictions, setPredictions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPredictions = async () => {
+      try {
+        const response = await fetch('http://localhost:8081/api/predictions/history');
+        if (!response.ok) {
+          throw new Error('Failed to fetch predictions');
+        }
+        const data = await response.json();
+        const mapped = data.map(p => ({
+          asset: p.predictionTitle || 'N/A',
+          futurePrice: p.futurePrice || 0,
+          confidence: p.fiability || 0,
+          expectedChange: p.result || 'undefined',
+          date: new Date(p.predictionDate).toLocaleString(),
+        }));
+        setPredictions(mapped);
+      } catch (err) {
+        console.error('Error fetching predictions:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPredictions();
+  }, []);
 
   const handleNavigation = (tab) => {
     setActiveTab(tab);
     navigate(`/${tab}`);
   };
+
+  if (loading) return <div className="text-center p-8">Loading predictions...</div>;
+  if (error) return <div className="text-center p-8 text-red-500">Error: {error}</div>;
 
   return (
     <div className="min-h-screen flex bg-[#07020B] text-white">
@@ -39,7 +64,11 @@ const Predictions = () => {
                 <button
                   key={item.label}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${activeTab === item.tab ? 'bg-[#0070E4] text-white' : 'hover:bg-[#2A2530]'}`}
-                  onClick={() => handleNavigation(item.tab)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleNavigation(item.tab);
+                  }}
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -52,14 +81,18 @@ const Predictions = () => {
             <h3 className="text-[#90CAF9] text-sm uppercase mb-3 font-medium">Portfolio</h3>
             <div className="space-y-3">
               {[
-                { icon: <FaChartLine size={20} />, label: 'Overview', tab: 'overview' },
-                { icon: <FaChartLine size={20} />, label: 'Holdings', tab: 'holdings' },
-                { icon: <FaChartLine size={20} />, label: 'Performance', tab: 'performance' }
+                { icon: <FaFileAlt size={20} />, label: 'Overview', tab: 'overview' },
+                { icon: <FaFileAlt size={20} />, label: 'Holdings', tab: 'holdings' },
+                { icon: <FaFileAlt size={20} />, label: 'Performance', tab: 'performance' }
               ].map((item) => (
                 <button
                   key={item.label}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${activeTab === item.tab ? 'bg-[#0070E4] text-white' : 'hover:bg-[#2A2530]'}`}
-                  onClick={() => handleNavigation(item.tab)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleNavigation(item.tab);
+                  }}
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -72,13 +105,17 @@ const Predictions = () => {
             <h3 className="text-[#90CAF9] text-sm uppercase mb-3 font-medium">Settings</h3>
             <div className="space-y-3">
               {[
-                { icon: <FaChartLine size={20} />, label: 'Preferences', tab: 'preferences' },
-                { icon: <FaChartLine size={20} />, label: 'Account', tab: 'account' }
+                { icon: <FaCog size={20} />, label: 'Preferences', tab: 'preferences' },
+                { icon: <FaUserCircle size={20} />, label: 'Account', tab: 'account' }
               ].map((item) => (
                 <button
                   key={item.label}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg ${activeTab === item.tab ? 'bg-[#0070E4] text-white' : 'hover:bg-[#2A2530]'}`}
-                  onClick={() => handleNavigation(item.tab)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleNavigation(item.tab);
+                  }}
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -89,7 +126,9 @@ const Predictions = () => {
         </nav>
       </div>
 
+      {/* Main Content */}
       <div className="flex-1 flex flex-col">
+        {/* Top Navbar */}
         <div className="h-16 flex items-center justify-between px-8 border-b-2 border-[#2A2530]">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
@@ -113,64 +152,134 @@ const Predictions = () => {
           </div>
           
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 bg-[#1F1B23] px-4 py-2 rounded-lg">
-              <FaSearch className="text-white" />
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="bg-transparent outline-none"
-              />
+              <div className="flex items-center gap-4">
+                <input 
+                  type="text" 
+                  placeholder="Asset (Symbol)" 
+                  className="bg-[#1F1B23] text-white px-3 py-1 rounded-lg outline-none w-32"
+                />
+                <input
+                  type="text"
+                  placeholder="Prediction Title"
+                  className="bg-[#1F1B23] text-white px-3 py-1 rounded-lg outline-none w-48"
+                />
+                <textarea
+                  placeholder="Description"
+                  className="bg-[#1F1B23] text-white px-3 py-1 rounded-lg outline-none h-10 w-64"
+                />
+                <button 
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg whitespace-nowrap"
+                  onClick={async () => {
+                    const symbol = document.querySelector('input[placeholder="Asset (Symbol)"]').value;
+                    const title = document.querySelector('input[placeholder="Prediction Title"]').value;
+                    const value = document.querySelector('textarea').value;
+                    
+                    try {
+                      const response = await fetch('http://localhost:8081/api/predictions/prediction', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          predictionTitle: title,
+                          userInput: value,
+                          symbol: symbol
+                        })
+                      });
+                      
+                      if (response.ok) {
+                        alert('Prediction submitted successfully!');
+                        window.location.reload();
+                      } else {
+                        alert('Error submitting prediction');
+                      }
+                    } catch (error) {
+                      console.error('Error:', error);
+                      alert('Failed to submit prediction');
+                    }
+                }}
+              >
+                Submit Prediction
+              </button>
             </div>
           </div>
         </div>
 
         <div className="flex-1 p-8">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">Predictions</h1>
-          </div>
-          
-          <div className="bg-[#121318] rounded-lg p-6">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-[#2A2530]">
-                    <th className="pb-4 text-left w-1/4">Asset</th>
-                    <th className="pb-4 text-right w-1/4">Future Price</th>
-                    <th className="pb-4 text-left w-2/4 pl-4">Confidence</th>
-                    <th className="pb-4 text-right w-1/4">Expected Change</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {predictions.map((prediction, index) => (
-                    <tr key={index} className="border-b border-[#2A2530] hover:bg-[#1F1B23]">
-                      <td className="py-4 font-bold flex items-center gap-2">
-                        {prediction.expectedChange.startsWith('+') ? 
-                          <FaArrowUp className="text-green-500" /> : 
-                          <FaArrowDown className="text-red-500" />}
-                        {prediction.asset}
-                      </td>
-                      <td className="py-4 text-right">${prediction.futurePrice.toFixed(2)}</td>
-                      <td className="py-4 flex items-center gap-2 pl-4">
-                        <div className="flex-1 bg-gray-700 rounded-full h-2.5">
-                          <div 
-                            className="bg-blue-500 h-2.5 rounded-full" 
-                            style={{ width: `${prediction.confidence}%` }}
-                          ></div>
-                        </div>
-                        <span className="text-sm w-12 text-right">{prediction.confidence}%</span>
-                      </td>
-                      <td className={`py-4 text-right font-medium ${
-                        prediction.expectedChange.startsWith('+') ? 
-                        'text-green-500' : 'text-red-500'
-                      }`}>
-                        {prediction.expectedChange}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <h1 className="text-3xl font-bold mb-6">Predictions</h1>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...predictions].sort((a, b) => b.confidence - a.confidence).map((prediction, index) => (
+            <div key={index} className="bg-[#1F1B23] rounded-xl shadow-lg p-5 border border-[#2A2530] hover:border-blue-500 transition-all hover:shadow-xl hover:scale-[1.02] duration-300">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  {prediction.asset}
+                  {prediction.expectedChange.startsWith('+') ? (
+                    <span className="text-green-500">📈</span>
+                  ) : (
+                    <span className="text-red-500">📉</span>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      prediction.confidence >= 0.75 ? 'bg-green-900 text-green-400' :
+                      prediction.confidence >= 0.5 ? 'bg-yellow-900 text-yellow-300' :
+                      'bg-red-900 text-red-300'
+                    }`}>
+                      {prediction.confidence >= 0.75 ? 'High Confidence' :
+                       prediction.confidence >= 0.5 ? 'Medium Confidence' : 'Low Confidence'}
+                    </span>
+                    {prediction.confidence >= 0.75 ? (
+                      <FaArrowUp className="text-green-500" />
+                    ) : prediction.confidence >= 0.5 ? (
+                      <FaArrowUp className="text-yellow-500" />
+                    ) : prediction.expectedChange.startsWith('+') ? (
+                      <FaArrowUp className="text-green-500" />
+                    ) : (
+                      <FaArrowDown className="text-red-500" />
+                    )}
+                  </div>
+                </h2>
+              </div>
+              <div className="mt-2">
+                <p className="text-gray-300 text-sm mb-1 flex items-center gap-1">
+                  <span>🧠</span> Confidence:
+                </p>
+                <div className="w-full bg-gray-700 rounded-full h-2.5">
+                  <div
+                    className="bg-blue-500 h-2.5 rounded-full"
+                    style={{ width: `${prediction.confidence * 100}%` }}
+                  ></div>
+                </div>
+                <p className="text-sm mt-1 text-right">{(prediction.confidence * 100).toFixed(1)}%</p>
+              </div>
+
+              <div className="mt-4">
+                <p className="text-gray-400 text-sm mb-1 flex items-center gap-1">
+                  <span>⚡</span> Expected Change:
+                </p>
+                <p className={`text-md font-semibold text-gray-400`}>
+                  {prediction.expectedChange}
+                </p>
+              </div>
+
+                <p className="text-xs text-gray-500 mt-4">{prediction.date}</p>
+                <div className="flex gap-2 mt-3">
+                  <button 
+                    className="flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                    onClick={() => console.log('Recalculating prediction', prediction.asset)}
+                  >
+                    Reload Prediction 🔄
+                  </button>
+                  <button 
+                    className="flex items-center gap-1 text-xs bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded"
+                    onClick={() => console.log('Saving as favorite', prediction.asset)}
+                  >
+                    Save as Favorite ⭐
+                  </button>
+                </div>
             </div>
-          </div>
+          ))}
+        </div>
         </div>
       </div>
     </div>
