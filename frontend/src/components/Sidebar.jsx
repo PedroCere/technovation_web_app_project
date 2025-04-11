@@ -8,6 +8,7 @@ const Sidebar = () => {
       <div className="logo">Logo</div>
       <ul className="menu">
         <li><FaChartBar /><span>Charts</span></li>
+        <li><FaChartBar /><span>Predictions</span></li>
         <li><FaNewspaper /><span>News</span></li>
         <li><FaUser /><span>Profile</span></li>
         <li><FaBell /><span>Alerts</span></li>
