@@ -8,10 +8,22 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-service" />
-        <module name="predictions-service" />
-        <module name="market-data-service" />
         <module name="auth-service" />
+        <module name="market-data-service" />
+        <module name="predictions-service" />
         <module name="config-service" />
-<<<<<<< backend
-
+        <module name="gateway-service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="auth-service" options="-parameters" />
+      <module name="config-service" options="-parameters" />
+      <module name="eureka-service" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
+      <module name="market-data-service" options="-parameters" />
+      <module name="predictions-service" options="-parameters" />
+    </option>
+  </component>
 </project>

@@ -36,9 +36,14 @@ public class PredictionController {
     @GetMapping("/history")
     public ResponseEntity<List<Prediction>> getUserHistory(HttpServletRequest request) {
         String userIdStr = (String) request.getAttribute("userId");
+        if (userIdStr == null) {
+            // ⚠️ Modo sin autenticación
+            userIdStr = "1"; // valor de prueba
+        }
         Long userId = Long.parseLong(userIdStr);
         List<Prediction> history = predictionService.getPredictionsByUser(userId);
         return ResponseEntity.ok(history);
     }
+
 
 }
