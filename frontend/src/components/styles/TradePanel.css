@@ -1,0 +1,40 @@
+.trade-panel {
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.trade-panel h2 {
+  text-align: center;
+}
+
+.trade-panel label {
+  display: block;
+  margin-top: 10px;
+}
+
+.trade-panel input,
+.trade-panel select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+#force-buy-button {
+  all: unset !important;
+  background-color: #0070E4 !important;
+  color: black !important;
+  width: 100% !important;
+  margin-top: 1rem !important;
+  font-weight: bold !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.375rem !important;
+  transition: background-color 0.2s !important;
+  border: 2px solid lime !important;
+}
+
+#force-buy-button:hover {
+  background-color: #0060C4 !important;
+}
