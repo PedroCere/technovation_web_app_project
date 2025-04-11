@@ -32,40 +32,40 @@ public class PredictionServiceImpl implements PredictionService {
         CompanyQuoteDTO quote = marketDataClient.getQuote(dto.getSymbol());
 
         String prompt = """
-                Dado el siguiente contexto del usuario:
-                "%s"
-
-                Y la información bursátil de la empresa:
-
-                Nombre: %s
-                Símbolo: %s
-                Precio actual: %.2f
-                Cambio del día: %.2f (%.2f%%)
-                Mínimo del día: %.2f
-                Máximo del día: %.2f
-                Máximo del año: %.2f
-                Mínimo del año: %.2f
-                Capitalización de mercado: %d
-                Volumen actual: %d
-                Volumen promedio: %d
-                Bolsa: %s
-                Precio de apertura: %.2f
-                Cierre anterior: %.2f
-                EPS (Ganancias por acción): %.2f
-                P/E Ratio: %.2f
-                Fecha de próximos earnings: %s
-                Acciones en circulación: %d
-
-                Generá una predicción financiera breve y confiable.
-
-                IMPORTANTE: Respondé ÚNICAMENTE en formato JSON válido. NO agregues texto adicional.
-                {
-                "prediction": "texto de la predicción",
-                "fiability": "La certeza que tienes de que tu predicción se cumpla entre 0 y 1"
-                 IMPORTANTE: Usa punto (.) para los decimales. NO uses coma (,).
-                                
-                    }
-                """.formatted(
+            Given the following user context:
+            "%s"
+        
+            And the stock market information of the company:
+        
+            Name: %s
+            Symbol: %s
+            Current price: %.2f
+            Daily change: %.2f (%.2f%%)
+            Day low: %.2f
+            Day high: %.2f
+            52-week high: %.2f
+            52-week low: %.2f
+            Market cap: %d
+            Current volume: %d
+            Average volume: %d
+            Exchange: %s
+            Opening price: %.2f
+            Previous close: %.2f
+            EPS (Earnings Per Share): %.2f
+            P/E Ratio: %.2f
+            Upcoming earnings date: %s
+            Shares outstanding: %d
+        
+            Generate a brief and reliable financial prediction.
+        
+            IMPORTANT: Respond ONLY in valid JSON format. DO NOT add any additional text.
+            {
+                "prediction": "your prediction text here",
+                "fiability": "your confidence level between 0 and 1"
+            }
+        
+            IMPORTANT: Use a period (.) as decimal separator. DO NOT use a comma (,).
+            """.formatted(
                 dto.getUserInput(),
                 quote.getName(),
                 quote.getSymbol(),
@@ -85,8 +85,8 @@ public class PredictionServiceImpl implements PredictionService {
                 quote.getEps(),
                 quote.getPe(),
                 quote.getEarningsAnnouncement(),
-                quote.getSharesOutstanding()
-        );
+                quote.getSharesOutstanding());
+
 
         OpenRouterRequest request = new OpenRouterRequest(
                 "mistralai/mistral-7b-instruct",

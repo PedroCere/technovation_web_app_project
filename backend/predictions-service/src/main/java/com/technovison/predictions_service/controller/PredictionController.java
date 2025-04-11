@@ -18,7 +18,7 @@ public class PredictionController {
 
     private final PredictionService predictionService;
 
-    @PostMapping
+    @PostMapping("/prediction")
     public ResponseEntity<PredictionResponseDTO> predict(
             @RequestBody PredictionRequestDTO dto,
             HttpServletRequest request

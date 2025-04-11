@@ -18,7 +18,7 @@ public class InputValueController {
     @Autowired
     private InputValueService inputService;
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<?> saveInput(@RequestBody InputValueDTO dto, HttpServletRequest request) {
         String userIdStr = (String) request.getAttribute("userId");
         Long userId = Long.parseLong(userIdStr);
