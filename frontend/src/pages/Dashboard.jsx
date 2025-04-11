@@ -29,7 +29,7 @@ const Dashboard = () => {
               {[
                 { icon: <FaChartLine size={20} />, label: 'Dashboard', tab: 'dashboard' },
                 { icon: <FaChartLine size={20} />, label: 'Markets', tab: 'markets' },
-                { icon: <FaSearch size={20} />, label: 'Watchlist', tab: 'watchlist' }
+                { icon: <FaSearch size={20} />, label: 'Predictions', tab: 'predictions' }
               ].map((item) => (
                 <button
                   key={item.label}

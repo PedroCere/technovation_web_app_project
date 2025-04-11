@@ -9,6 +9,7 @@ const Navbar = () => {
         <li>Charts</li>
         <li>News</li>
         <li>Profile</li>
+        <li>Predictions</li>
         <li>Alerts</li>
         <li>Settings</li>
       </ul>
