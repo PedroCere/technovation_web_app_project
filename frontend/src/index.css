@@ -1,68 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --main-bg: #07020B;
+  --secondary-bg: #1F1B23;
+  --primary-accent: #0070E4;
+  --primary-hover: #005DB4;
+  --border-color: #2A2530;
+  --hover-bg: #3A3640;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  @apply bg-main-bg text-white;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Componentes personalizados */
+.bg-main-bg { background-color: var(--main-bg); }
+.bg-secondary-bg { background-color: var(--secondary-bg); }
+.bg-hover-bg { background-color: var(--hover-bg); }
+.border-border-color { border-color: var(--border-color); }
+.text-primary-accent { color: var(--primary-accent); }
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: var(--secondary-bg);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+
+/* Transiciones */
+.transition-colors {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@layer components {
+  .custom-scroll {
+    &::-webkit-scrollbar {
+      @apply w-2 h-2;
+    }
+    &::-webkit-scrollbar-thumb {
+      @apply bg-[#2A2530] rounded-full;
+    }
   }
 }
+/* Efecto de elevación */
+.shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 112, 228, 0.15);
+}
+
