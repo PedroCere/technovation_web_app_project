@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import Markets from "./pages/Markets.jsx";
 import Predictions from "./pages/Predictions.jsx";
+import Account from "./pages/Account.jsx";
 import "../src/components/styles/global.css";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/markets" element={<Markets />} />
         <Route path="/predictions" element={<Predictions />} />
+        <Route path="/account" element={<Account />} />
       </Routes>
     </Router>
   );
