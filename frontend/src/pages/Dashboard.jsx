@@ -6,14 +6,33 @@ import Chart from '../components/Chart';
 import StockHeaderPanel from '../components/StockHeaderPanel';
 import Sidebar from '../components/Sidebar';
 
+// Correct hook imports based on backend connection plan
+import useMarketQuote from '../components/hooks/useMarketHistory'; // fetches quote data
+import useMarketHistory from '../components/hooks/useMarketQuote'; // fetches historical data
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('buy');
+  const symbol = 'MSFT';
+
+  // Fetch real-time quote data
+  const quoteData = useMarketQuote(symbol);
+  // Fetch historical data
+  const historicalData = useMarketHistory(symbol);
 
   const handleNavigation = (tab) => {
     setActiveTab(tab);
     navigate(`/${tab}`);
   };
+
+  // Loading state for quote data
+  if (!quoteData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#07020B] text-white">
+        Loading stock data...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-[#07020B] text-white">
@@ -88,31 +107,31 @@ const Dashboard = () => {
               ))}
             </div>
 
-            {/* Stock Header Panel */}
+            {/* Stock Header Panel with real data */}
             <StockHeaderPanel stockData={{
-              ticker: 'MSFT',
-              companyName: 'Microsoft Corp NASDAQ',
-              currentPrice: 406.32,
-              change: +2.24,
-              changePercent: 0.26,
-              afterHoursPrice: 406.83,
-              afterHoursChange: -0.27,
-              afterHoursChangePercent: 0.07,
-              open: 401.23,
-              low: 400.10,
-              high: 408.36,
-              week52High: 430.82,
-              week52Low: 273.13,
-              avgVolume: '21.73M',
-              sharesOutstanding: '7.43B',
-              marketCap: '3.02T',
-              dividendYield: 0.74
+              ticker: quoteData.symbol,
+              companyName: quoteData.name,
+              currentPrice: quoteData.price,
+              change: quoteData.change,
+              changePercent: quoteData.changesPercentage,
+              afterHoursPrice: quoteData.price, // no separate after hours data in DTO
+              afterHoursChange: 0,
+              afterHoursChangePercent: 0,
+              open: quoteData.open,
+              low: quoteData.dayLow,
+              high: quoteData.dayHigh,
+              week52High: quoteData.yearHigh,
+              week52Low: quoteData.yearLow,
+              avgVolume: quoteData.avgVolume,
+              sharesOutstanding: quoteData.sharesOutstanding,
+              marketCap: quoteData.marketCap,
+              dividendYield: quoteData.dividendYield || 0
             }} />
 
-            {/* Chart */}
+            {/* Chart with historical data */}
             <div className="rounded-xl border border-[#2a253000] bg-bg-[#07020B]">
               <div className="h-150 p-4">
-                <Chart />
+                <Chart historicalData={historicalData} />
               </div>
             </div>
           </div>
@@ -175,11 +194,11 @@ const Dashboard = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-[#2A2530] p-3 rounded-lg flex flex-col items-center">
                     <div className="text-sm text-[#999999]">Market Price</div>
-                    <div className="text-lg font-bold text-[#81C784]">$402.15</div>
+                    <div className="text-lg font-bold text-[#81C784]">${quoteData.price.toFixed(2)}</div>
                   </div>
                   <div className="bg-[#2A2530] p-3 rounded-lg flex flex-col items-center">
                     <div className="text-sm text-[#999999]">Last Price</div>
-                    <div className="text-lg font-bold text-[#E57373]">$401.80</div>
+                    <div className="text-lg font-bold text-[#E57373]">${quoteData.previousClose.toFixed(2)}</div>
                   </div>
                 </div>
 
@@ -227,7 +246,7 @@ const Dashboard = () => {
                     ? 'bg-gradient-to-r from-[#0070E4] to-[#0060C4] hover:opacity-90' 
                     : 'bg-gradient-to-r from-[#E53935] to-[#D32F2F] hover:opacity-90'
                 } text-white`}>
-                  {activeTab === 'buy' ? 'BUY MSFT' : 'SELL MSFT'}
+                  {activeTab === 'buy' ? `BUY ${quoteData.symbol}` : `SELL ${quoteData.symbol}`}
                 </button>
               </div>
             </div>
