@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useMarketQuote = (symbol) => {
+const useMarketHistory = (symbol) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -22,4 +22,4 @@ const useMarketQuote = (symbol) => {
   return data;
 };
 
-export default useMarketQuote;
+export default useMarketHistory;

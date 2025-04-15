@@ -6,14 +6,16 @@ import Chart from '../components/Chart';
 import StockHeaderPanel from '../components/StockHeaderPanel';
 import Sidebar from '../components/Sidebar';
 
-// Correct hook imports based on backend connection plan
-import useMarketQuote from '../components/hooks/useMarketHistory'; // fetches quote data
 import useMarketHistory from '../components/hooks/useMarketQuote'; // fetches historical data
+import useMarketQuote from '../components/hooks/useMarketHistory'; // fetches quote data
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('buy');
-  const symbol = 'MSFT';
+  const [activeTab, setActiveTab] = useState('msft'); // active stock symbol in lowercase
+  const [tradeAction, setTradeAction] = useState('buy'); // buy or sell toggle
+
+  // Use activeTab as symbol in uppercase for data fetching
+  const symbol = activeTab.toUpperCase();
 
   // Fetch real-time quote data
   const quoteData = useMarketQuote(symbol);
@@ -92,19 +94,19 @@ const Dashboard = () => {
           <div className="col-span-3 space-y-6">
             {/* Chart Tabs */}
             <div className="flex justify-between p-1 bg-[#1F1B23] rounded-xl">
-              {['Chart', 'Options', 'News', 'Financials', 'Analysts', 'Risk', 'Releases', 'Notes', 'Profile'].map((tab) => (
-                <button 
-                  key={tab}
-                  className={`flex-1 px-3 py-2 mx-1 rounded-lg transition-all ${
-                    activeTab === tab.toLowerCase() 
-                      ? 'bg-gradient-to-r from-[#0070E4] to-[#0060C4] text-white' 
-                      : 'text-[#999999] hover:text-white hover:bg-[#2A2530]'
-                  }`}
-                  onClick={() => setActiveTab(tab.toLowerCase())}
-                >
-                  <span className="text-sm font-medium">{tab}</span>
-                </button>
-              ))}
+            {['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA'].map((symbol) => (
+              <button 
+                key={symbol}
+                className={`flex-1 px-3 py-2 mx-1 rounded-lg transition-all ${
+                  activeTab === symbol.toLowerCase() 
+                    ? 'bg-gradient-to-r from-[#0070E4] to-[#0060C4] text-white' 
+                    : 'text-[#999999] hover:text-white hover:bg-[#2A2530]'
+                }`}
+                onClick={() => setActiveTab(symbol.toLowerCase())}
+              >
+                <span className="text-sm font-medium">{symbol}</span>
+              </button>
+            ))}
             </div>
 
             {/* Stock Header Panel with real data */}
@@ -192,14 +194,14 @@ const Dashboard = () => {
 
                 {/* Price Information */}
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-[#2A2530] p-3 rounded-lg flex flex-col items-center">
-                    <div className="text-sm text-[#999999]">Market Price</div>
-                    <div className="text-lg font-bold text-[#81C784]">${quoteData.price.toFixed(2)}</div>
-                  </div>
-                  <div className="bg-[#2A2530] p-3 rounded-lg flex flex-col items-center">
-                    <div className="text-sm text-[#999999]">Last Price</div>
-                    <div className="text-lg font-bold text-[#E57373]">${quoteData.previousClose.toFixed(2)}</div>
-                  </div>
+              <div className="bg-[#2A2530] p-3 rounded-lg flex flex-col items-center">
+                <div className="text-sm text-[#999999]">Market Price</div>
+                <div className="text-lg font-bold text-[#81C784]">${quoteData?.price?.toFixed(2) ?? 'N/A'}</div>
+              </div>
+              <div className="bg-[#2A2530] p-3 rounded-lg flex flex-col items-center">
+                <div className="text-sm text-[#999999]">Last Price</div>
+                <div className="text-lg font-bold text-[#E57373]">${quoteData?.previousClose?.toFixed(2) ?? 'N/A'}</div>
+              </div>
                 </div>
 
                 {/* Transaction Details */}
