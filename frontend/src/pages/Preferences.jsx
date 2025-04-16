@@ -70,10 +70,11 @@ const Preferences = () => {
       <div className="flex-1 flex flex-col">
         <Navbar />
         
-        <main className="flex-1 p-8 lg:p-12">
+        <main className="flex-1 p-8 lg:p-12 bg-[#07020B]">
+
           <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-[#0070E4] to-[#00C4E4] bg-clip-text text-transparent">
-              Account Settings
+              Preferences
             </h1>
             
             <div className="space-y-6">
@@ -191,7 +192,7 @@ const Preferences = () => {
                   <button className="bg-gradient-to-r from-[#0070E4] to-[#0060C4] text-white px-4 py-2 rounded-lg hover:opacity-90">
                     Export Data
                   </button>
-                  <button className="bg-gradient-to-r from-[#E46070] to-[#C44050] text-white px-4 py-2 rounded-lg hover:opacity-90 flex items-center">
+                  <button className="bg-gradient-to-r from-[#E91E63] to-[#C2185B] text-white px-4 py-2 rounded-lg hover:opacity-90 flex items-center">
                     <FaTrash className="mr-2" />
                     Delete Account
                   </button>

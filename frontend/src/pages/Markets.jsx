@@ -15,7 +15,7 @@ const Markets = () => {
     setSidebarActiveTab(tab);
     navigate(`/${tab}`, { replace: true });
   };
-  // Datos mock para visualización
+
   const [topGainers, setTopGainers] = useState([
     { symbol: 'AAPL', name: 'Apple Inc', price: 185.34, change: 2.45 },
     { symbol: 'MSFT', name: 'Microsoft Corp', price: 406.21, change: 1.89 },
