@@ -20,6 +20,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Perforrmance />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/markets" element={<Markets />} />
         <Route path="/predictions" element={<Predictions />} />
