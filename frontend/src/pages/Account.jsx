@@ -5,12 +5,13 @@ import Navbar from '../components/Navbar';
 
 const Account = () => {
   return (
-    <div className="min-h-screen flex bg-[#07020B] text-white">
+    <div className="min-h-screen flex bg-[#07020B] text-white"> 
       <Sidebar />
       <div className="flex-1 flex flex-col">
         {/* Enhanced Account Content */}
        <Navbar/>
-        <div className="flex-1 p-8 bg-gradient-to-b from-[#0D0911] to-[#1A1520]">
+       <div className="flex-1 p-8 bg-[#07020B]">
+
           <div className="bg-[#121318] rounded-xl p-8 shadow-2xl">
             <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-[#0070E4] to-[#00C4E4] bg-clip-text text-transparent">
               Account Settings

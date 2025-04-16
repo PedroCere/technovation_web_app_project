@@ -6,20 +6,19 @@ import Chart from '../components/Chart';
 import StockHeaderPanel from '../components/StockHeaderPanel';
 import Sidebar from '../components/Sidebar';
 
-import useMarketHistory from '../components/hooks/useMarketQuote'; // fetches historical data
-import useMarketQuote from '../components/hooks/useMarketHistory'; // fetches quote data
+import useMarketHistory from '../components/hooks/useMarketQuote'; 
+import useMarketQuote from '../components/hooks/useMarketHistory'; 
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('msft'); // active stock symbol in lowercase
-  const [tradeAction, setTradeAction] = useState('buy'); // buy or sell toggle
+  const [activeTab, setActiveTab] = useState('msft'); 
+  const [tradeAction, setTradeAction] = useState('buy');
 
-  // Use activeTab as symbol in uppercase for data fetching
+
   const symbol = activeTab.toUpperCase();
 
-  // Fetch real-time quote data
   const quoteData = useMarketQuote(symbol);
-  // Fetch historical data
+
   const historicalData = useMarketHistory(symbol);
 
   const handleNavigation = (tab) => {
@@ -27,7 +26,7 @@ const Dashboard = () => {
     navigate(`/${tab}`);
   };
 
-  // Loading state for quote data
+  
   if (!quoteData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#07020B] text-white">
@@ -40,9 +39,9 @@ const Dashboard = () => {
     <div className="min-h-screen flex bg-[#07020B] text-white">
      <Sidebar />
 
-      {/* Main Content */}
+   
       <div className="flex-1 flex flex-col">
-        {/* Enhanced Top Navbar */}
+        
         <div className="h-16 flex items-center justify-between px-8 border-b-2 border-[#2A2530] bg-bg-[#07020B]">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2 group cursor-pointer relative">
@@ -54,7 +53,7 @@ const Dashboard = () => {
               <span className="font-medium">Mateo Baccillere</span>
               <FiChevronDown className="text-gray-400 group-hover:text-[#0070E4] transition-colors" />
               
-              {/* Dropdown Menu */}
+             
               <div className="absolute top-full left-0 w-48 bg-[#1A161F] rounded-lg shadow-2xl mt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 invisible group-hover:visible">
                 <div className="py-2">
                   <button className="w-full px-4 py-2 text-left hover:bg-[#2A2530]">Profile Settings</button>
@@ -90,9 +89,9 @@ const Dashboard = () => {
 
         {/* Main Body */}
         <div className="flex-1 grid grid-cols-5 gap-6 p-8 bg-gradient-to-b from-bg-[#07020B] to-[#1A1520]">
-          {/* Left Section (Chart & Details) */}
+         
           <div className="col-span-3 space-y-6">
-            {/* Chart Tabs */}
+            
             <div className="flex justify-between p-1 bg-[#1F1B23] rounded-xl">
             {['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA'].map((symbol) => (
               <button 
@@ -116,7 +115,7 @@ const Dashboard = () => {
               currentPrice: quoteData.price,
               change: quoteData.change,
               changePercent: quoteData.changesPercentage,
-              afterHoursPrice: quoteData.price, // no separate after hours data in DTO
+              afterHoursPrice: quoteData.price, 
               afterHoursChange: 0,
               afterHoursChangePercent: 0,
               open: quoteData.open,
