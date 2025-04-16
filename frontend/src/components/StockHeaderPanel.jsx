@@ -1,6 +1,14 @@
-import React from 'react';
+ import React from 'react';
 
 const StockHeaderPanel = ({ stockData }) => {
+  if (!stockData) {
+    return (
+      <div className="stock-header-panel p-4 rounded-lg mb-6 text-white">
+        Loading stock data...
+      </div>
+    );
+  }
+
   return (
     <div className="stock-header-panel p-4 rounded-lg mb-6">
       <div className="flex gap-8">
