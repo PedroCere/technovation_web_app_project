@@ -9,7 +9,7 @@
 
 # Technovation Web App Project 🚀
 
-🌐 Live Demo: [technovation-web-app-project.vercel.app](https://technovation-web-app-project.vercel.app/)
+🌐 Live Demo: [technovation-web-app-project.vercel.app](https://marketvisionai.vercel.app/)
 
 ---
 
