@@ -10,6 +10,7 @@ import Security from "./pages/Security.jsx";
 import Overview from "./pages/Overview.jsx";
 import Holdings from "./pages/Holdings.jsx";
 import Performance from "./pages/Performance.jsx";
+import HomeFull from "./components/HomeFull.jsx";
 
 
 
@@ -20,7 +21,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Performance />} />
+        <Route path="/" element={<HomeFull />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/markets" element={<Markets />} />
         <Route path="/predictions" element={<Predictions />} />
