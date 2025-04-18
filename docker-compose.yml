@@ -12,7 +12,7 @@ services:
     build:
       context: ./backend/gateway-service
     ports:
-      - "8080:8080"
+      - "8083:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka
@@ -21,7 +21,7 @@ services:
     build:
       context: ./backend/auth-service
     ports:
-      - "8080:8080"
+      - "8084:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka
