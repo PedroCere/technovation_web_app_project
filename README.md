@@ -107,6 +107,27 @@
 git clone https://github.com/your-user/marketvision-ai.git
 cd marketvision-ai
 
+🐳 Docker Setup (Levantar toda la app con microservicios)
+Para ejecutar todos los servicios (frontend, backend, predicciones, dashboards, etc.) de forma simultánea, simplemente usá:
+
+bash
+Copiar
+Editar
+docker-compose up --build
+Esto construirá y levantará:
+
+Todos los microservicios backend (auth, market-data, predictions, gateway, etc.)
+
+Eureka y Config Server para discovery/configuración centralizada
+
+El frontend React en el puerto 3000
+
+Asegurate de tener Docker instalado y que los puertos 3000, 8080, 8081, etc. estén libres.
+
+Una vez que se complete el proceso, podés acceder a la app desde:
+
+🔗 http://localhost:3000
+
 ⚛️ Frontend Setup (React + Vite)
 cd client
 npm install
